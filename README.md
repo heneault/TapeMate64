@@ -22,13 +22,13 @@ _![overview2](documentation/TapeMate64_overview_2.jpg)_
 
 ---
 
-## Where to Order a Kit
+# Where to Order a Kit
 
 I will have some kits for sale at the [World of Commodore](https://woc.tpug.ca/) event, organized by **TPUG**, during the weekend of **December 6-7, 2025**. Any remaining kits will be sold online after the event.
 
 ---
 
-# Assembling Board Instruction
+# Instructions to Assemble the Board
 
 To properly build and calibrate your TapeMate64, please follow the steps in the [build instructions](build_guide/BUILD.md). **Carefully adjusting the MT3608 is very important** to avoid damaging your Datasette.
 
