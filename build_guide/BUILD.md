@@ -107,8 +107,7 @@ _![4N33](images/4n33.jpg)_
 ⚠️ **Do NOT connect a datasette yet!**  
 The Arduino must be flashed and the motor voltage adjusted first.
 
-1. Download the latest release:  
-   **https://github.com/heneault/TapeMate64/releases/tag/main**
+1. Download the [latest release](https://github.com/heneault/TapeMate64/releases/latest) of the application
 
 2. Extract the archive and run **`tape-gui`**.
 

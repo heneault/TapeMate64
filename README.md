@@ -36,7 +36,7 @@ To properly build and calibrate your TapeMate64, please follow the steps in the 
 
 # Firmware and Application Download Release
 
-The latest application release can be [downloaded here](https://github.com/heneault/TapeMate64/releases/tag/main). Download the zip file corresponding to your operating system (**Windows or Linux**). Extract the entire zip file to access the different applications.
+The latest application release can be [downloaded here](https://github.com/heneault/TapeMate64/releases/latest). Download the zip file corresponding to your operating system (**Windows or Linux**). Extract the entire zip file to access the different applications.
 
 ## Installing Windows Driver
 
