@@ -1,0 +1,16 @@
+# KiCad backup files
+*-bak
+*-backups
+_autosave*
+#auto_saved_files#
+
+# KiCad cache files
+*-cache*
+
+# KiCad local project settings (v6+)
+*.kicad_prl
+
+# KiCad temporary files
+*.tmp
+*.log
+

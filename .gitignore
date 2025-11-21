@@ -1,0 +1,4 @@
+*.tap
+.venv
+__pycache__
+

@@ -1,0 +1,148 @@
+name: Auto Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BRANCH_NAME: dev
+  PYTHON_VERSION: '3.9'
+  TAG_NAME: ${{ github.ref_name }}
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH_NAME }}
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r software/pc/requirements.txt
+
+      - name: Install 7zip (for zipping files on Windows)
+        run: |
+          choco install 7zip
+          echo "7zip installed successfully."
+
+      - name: Build Windows Executable
+        run: |
+          pyinstaller --onefile --add-data="software/pc/libs/firmware.hex:libs" --name=flash-firmware software/pc/flash-firmware.py
+          pyinstaller --onefile --name=tape-read software/pc/tape-read.py
+          pyinstaller --onefile --name=tape-write software/pc/tape-write.py
+          pyinstaller --onefile -w --add-data="software/pc/libs/firmware.hex:libs" --name=tape-gui software/pc/tape-gui.py
+
+      - name: Zip Windows Release
+        run: |
+          mkdir -p release/libs/
+          mv dist/flash-firmware.exe release/
+          mv dist/tape-gui.exe release/
+          mv dist/tape-read.exe release/
+          mv dist/tape-write.exe release/
+          cp software/pc/libs/firmware.hex release/libs/
+          cd release && 7z a ../TapeMate64_windows_${{ env.TAG_NAME }}.zip *
+        shell: bash
+
+      - name: Upload Windows ZIP to Release
+        uses: actions/upload-artifact@v4
+        with:
+          name: TapeMate64_windows_${{ env.TAG_NAME }}.zip
+          path: ./TapeMate64_windows_${{ env.TAG_NAME }}.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH_NAME }}
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Linux Executable Using Docker
+        run: |
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            ubuntu:20.04 bash -c "
+              export DEBIAN_FRONTEND=noninteractive && \
+              apt-get update && \
+              apt-get install -y python3 python3-pip python3-tk zip && \
+              python3 -m pip install --upgrade pip && \
+              pip install pyinstaller && \
+              pip install -r software/pc/requirements.txt && \
+              pyinstaller --onefile --add-data="software/pc/libs/firmware.hex:libs" --name=flash-firmware software/pc/flash-firmware.py && \
+              pyinstaller --onefile --add-data="software/pc/libs/firmware.hex:libs" --name=tape-gui software/pc/tape-gui.py && \
+              pyinstaller --onefile --name=tape-read software/pc/tape-read.py && \
+              pyinstaller --onefile --name=tape-write software/pc/tape-write.py && \
+              chown -R $(id -u):$(id -g) dist
+            "
+        shell: bash
+
+      - name: Zip Linux Release
+        run: |
+          mkdir -p release/libs/
+          mv dist/flash-firmware release/
+          mv dist/tape-gui release/
+          mv dist/tape-read release/
+          mv dist/tape-write release/
+          cp software/pc/libs/firmware.hex release/libs/
+          cd release && zip -r ../TapeMate64_linux_${{ env.TAG_NAME }}.zip *
+        shell: bash
+
+      - name: Upload Linux ZIP to Release
+        uses: actions/upload-artifact@v4
+        with:
+          name: TapeMate64_linux_${{ env.TAG_NAME }}.zip
+          path: ./TapeMate64_linux_${{ env.TAG_NAME }}.zip
+
+  release:
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: TapeMate64_windows_${{ env.TAG_NAME }}.zip
+          path: .
+
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: TapeMate64_linux_${{ env.TAG_NAME }}.zip
+          path: .
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
+          body: |
+            New release with version ${{ env.TAG_NAME }}.
+          draft: false
+          prerelease: false
+          files: |
+            TapeMate64_windows_${{ env.TAG_NAME }}.zip
+            TapeMate64_linux_${{ env.TAG_NAME }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
