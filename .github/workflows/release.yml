@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 env:
-  BRANCH_NAME: dev
+  BRANCH_NAME: main
   PYTHON_VERSION: '3.9'
   TAG_NAME: ${{ github.ref_name }}
 
