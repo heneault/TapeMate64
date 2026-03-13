@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # ===================================================================================
 # Project:   TapeMate64 - Python Script for Command Line Interface - READ
-# Version:   v1.0
-# Year:      2025
+# Version:   v1.0.1
+# Year:      2025,2026
 # Author:    Yannick Heneault (Based on work of Stefan Wagner)
 # Github:    https://github.com/heneault/TapeMate64
 # License:   http://creativecommons.org/licenses/by-sa/3.0/
@@ -33,7 +33,7 @@ from libs.util import crc16_update
 # Print Header
 print('')
 print('-------------------------------------------------------------')
-print('TapeMate64 - Python Command Line Interface v1.0')
+print('TapeMate64 - Python Command Line Interface v1.0.1')
 print('(C) 2025 by Yannick Heneault - github.com/heneault/TapeMate64')
 print('-------------------------------------------------------------')
 
