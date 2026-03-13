@@ -1,7 +1,7 @@
 // ===================================================================================
 // Project:   TapeMate64 - Connect your Commodore Datasette to a PC
-// Version:   v1.0
-// Year:      2025
+// Version:   v1.0.1
+// Year:      2025, 2026
 // Author:    Yannick Heneault (Based on work of Stefan Wagner)
 // Github:    https://github.com/heneault/TapeMate64
 // License:   http://creativecommons.org/licenses/by-sa/3.0/
@@ -60,7 +60,7 @@
 #define TAP_BUF_LEN   256    // tape buffer length (must be byte size)
 
 // Identifiers
-#define VERSION "1.0"        // version number sent via serial if requested
+#define VERSION "1.0.1"      // version number sent via serial if requested
 #define IDENT "TapeMate64"   // identifier sent via serial if requested
 
 #define pinLow(x) (PORTD &= (~(1 << x)))
@@ -238,10 +238,10 @@ void TAP_init(void)
 }
 
 // Get number of items in tape buffer
-uint8_t TAP_buf_items(void)
+uint16_t TAP_buf_items(void)
 {
-  uint8_t head = TAP_buf_head;
-  uint8_t tail = TAP_buf_tail;
+  uint16_t head = TAP_buf_head;
+  uint16_t tail = TAP_buf_tail;
   if (head > tail)
     return (head - tail);
   return (TAP_BUF_LEN - tail + head);
@@ -503,7 +503,7 @@ void TAP_write(void)
 
     if (!requested && !endofdata)
     {
-      uint8_t r;
+      uint16_t r;
       ATOMIC_BLOCK(ATOMIC_FORCEON)
       {
         r = TAP_buf_items();
@@ -569,7 +569,7 @@ ISR(TIMER1_COMPA_vect)
       TAP_pulse_timer = (data2 << 8) | data1;
       TAP_pulse_over = data3;
 
-      int32_t pulse_length = (int32_t(TAP_pulse_over)) << 16 | TAP_pulse_timer;
+      uint32_t pulse_length = (uint32_t(TAP_pulse_over)) << 16 | TAP_pulse_timer;
       if (!pulse_length)
       {
         TCCR1B = 0;
@@ -581,7 +581,7 @@ ISR(TIMER1_COMPA_vect)
         // for long pulse, create a very short pulse first to go to high level
         // otherwise the long delay in rise sometime glitch the datassette to write a false extra pulse
         pulse_length = pulse_length * 2;
-        TAP_pulse_timer = 50;
+        TAP_pulse_timer = 200;
         TAP_pulse_over = 0;
         pulse_length -= TAP_pulse_timer;
         TAP_pulse_timer_save = pulse_length & 0xffff;
