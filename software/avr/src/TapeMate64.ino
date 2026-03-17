@@ -1,6 +1,6 @@
 // ===================================================================================
 // Project:   TapeMate64 - Connect your Commodore Datasette to a PC
-// Version:   v1.0.1
+// Version:   v1.0.2
 // Year:      2025, 2026
 // Author:    Yannick Heneault (Based on work of Stefan Wagner)
 // Github:    https://github.com/heneault/TapeMate64
@@ -60,7 +60,7 @@
 #define TAP_BUF_LEN   256    // tape buffer length (must be byte size)
 
 // Identifiers
-#define VERSION "1.0.1"      // version number sent via serial if requested
+#define VERSION "1.0.2"      // version number sent via serial if requested
 #define IDENT "TapeMate64"   // identifier sent via serial if requested
 
 #define pinLow(x) (PORTD &= (~(1 << x)))
@@ -581,7 +581,7 @@ ISR(TIMER1_COMPA_vect)
         // for long pulse, create a very short pulse first to go to high level
         // otherwise the long delay in rise sometime glitch the datassette to write a false extra pulse
         pulse_length = pulse_length * 2;
-        TAP_pulse_timer = 200;
+        TAP_pulse_timer = 100;
         TAP_pulse_over = 0;
         pulse_length -= TAP_pulse_timer;
         TAP_pulse_timer_save = pulse_length & 0xffff;

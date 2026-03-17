@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # ===================================================================================
 # Project:   TapeMate64 - Graphical Front End written in Python
-# Version:   v1.0.1
+# Version:   v1.0.2
 # Year:      2025,2026
 # Author:    Yannick Heneault (Based on work of Stefan Wagner)
 # Github:    https://github.com/heneault/TapeMate64

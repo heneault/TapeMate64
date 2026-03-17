@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # ===================================================================================
 # Project:   TapeMate64 - Python Script for Command Line Interface - Flash Firmware
-# Version:   v1.0.1
+# Version:   v1.0.2
 # Year:      2025,2026
 # Author:    Yannick Heneault (Based on work of Stefan Wagner)
 # Github:    https://github.com/heneault/TapeMate64
@@ -40,7 +40,7 @@ class PrgError(Exception):
 # Print Header
 print('')
 print('-------------------------------------------------------------')
-print('TapeMate64 - Python Command Line Interface v1.0.1')
+print('TapeMate64 - Python Command Line Interface v1.0.2')
 print('(C) 2025 by Yannick Heneault - github.com/heneault/TapeMate64')
 print('-------------------------------------------------------------')
 
