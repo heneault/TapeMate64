@@ -65,6 +65,7 @@ Windows users may need to install a [driver](https://www.wch-ic.com/downloads/ch
 * Connect your **TapeMate64** to your **Commodore Datasette**.
 * Connect your **TapeMate64** to a **USB port** on your PC.
 * Ensure that you have properly flashed the firmware.
+* Safety Note: Always disconnect from the **USB port** before unplugging the **Commodore Datasette**.
 
 ## Command Line Interface
 
