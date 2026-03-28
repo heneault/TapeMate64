@@ -4,6 +4,15 @@
 
 It also allows you to **write TAP images back to real cassette tapes**, so you can enjoy software on original hardware for the full retro experience.
 
+---
+
+## 📺 Project Presentation
+Watch the full presentation and live demo of **TapeMate64** at the **TPUG (Toronto PET Users Group)** meeting (December 2025):
+
+👉 **[TapeMate64 Presentation at TPUG - Watch on YouTube](https://youtu.be/ml87w1ATcyY?si=blFYjihloHmHbtkc)**
+
+---
+
 Based on the [TapeBuddy64](https://github.com/wagiminator/C64-Collection/tree/master/C64_TapeBuddy64) project, TapeMate64 adds a builder-friendly design. You can operate it via a command-line interface or a Python-based graphical front-end.
 
 The main differences of TapeMate64 over the original TapeBuddy64 project are:
